@@ -19,7 +19,7 @@ const DashboardCreatorLayout = async ({ params, children }: DashboardCreatorLayo
     return (
         <>
             <Navbar />
-            <div className="pt-[56px] flex h-full">
+            <div className="pt-[56px] flex w-full h-full">
                 <Sidebar />
                 <Container>
                     {children}

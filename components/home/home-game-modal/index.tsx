@@ -192,7 +192,7 @@ export const HomeGameModal = () => {
                                             <div key={id} className=" overflow-hidden">
                                                 <img
                                                     src={screenshot.image}
-                                                    className="object-cover xl:h-[160px] transition-all duration-300 hover:scale-150 cursor-zoom-in"
+                                                    className="object-cover transition-all duration-300 hover:scale-150 cursor-zoom-in"
                                                 />
                                             </div>
                                         ))}

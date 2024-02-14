@@ -48,7 +48,7 @@ export const HomeHero = () => {
                 >
                     {streamer_info.map((streamer, index) => (
                         <SwiperSlide key={index}>
-                            <div className="relative flex items-center justify-center w-full md:w-[290px] h-[280px] bg-zinc-700">
+                            <div className="relative flex items-center justify-center w-full md:w-[290px] h-[280px] 2xl:w-full 2xl:h-[280px] bg-zinc-700">
                                 <div className="absolute top-2 right-2 py-1 px-2 bg-red-700 rounded-full text-xs">
                                     Live
                                 </div>

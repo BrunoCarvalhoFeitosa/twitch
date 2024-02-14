@@ -7,13 +7,13 @@ import { getFollowedUsers } from "@/lib/follow-service"
 
 export const Sidebar = async () => {
     const recommended = await getRecommended()
-    const follows = await getFollowedUsers()
+    const following = await getFollowedUsers()
 
     return (
         <Wrapper>
             <div className="pt-12 px-3">
                 <Toggle />
-                <Following data={follows} />
+                <Following data={following} />
                 <Recommended data={recommended} />
             </div>
         </Wrapper>
