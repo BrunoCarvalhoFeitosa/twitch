@@ -1,8 +1,8 @@
 "use client"
+import { useState } from "react"
 import { CopyButton } from "@/components/application/keys/copy-button"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
 
 interface KeyCardProps {
     value: string | null

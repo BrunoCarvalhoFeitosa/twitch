@@ -13,12 +13,12 @@ const roomService = new RoomServiceClient(
 
 const ingressClient = new IngressClient(process.env.LIVEKIT_API_URL!)
 
-export const resetIngresses = async (hostIndentity: string) => {
+export const resetIngresses = async (hostIdentity: string) => {
     const ingresses = await ingressClient.listIngress({
-        roomName: hostIndentity
+        roomName: hostIdentity,
     })
 
-    const rooms = await roomService.listRooms([hostIndentity])
+    const rooms = await roomService.listRooms([hostIdentity])
 
     for (const room of rooms) {
         await roomService.deleteRoom(room.name)
@@ -40,7 +40,7 @@ export const createIngress = async (ingressType: IngressInput) => {
         name: self.username,
         roomName: self.id,
         participantName: self.username,
-        participantIdentity: self.id
+        participantIdentity: self.id,
     }
 
     if (ingressType === IngressInput.WHIP_INPUT) {
@@ -48,7 +48,7 @@ export const createIngress = async (ingressType: IngressInput) => {
     } else {
         options.video = {
             source: TrackSource.CAMERA,
-            preset: IngressVideoEncodingPreset.H264_1080P_30FPS_3_LAYERS
+            preset: IngressVideoEncodingPreset.H264_1080P_30FPS_3_LAYERS,
         }
         options.audio = {
             source: TrackSource.MICROPHONE,
@@ -56,21 +56,22 @@ export const createIngress = async (ingressType: IngressInput) => {
         }
     }
 
-    const ingress = await ingressClient.createIngress(ingressType, options)
+    const ingress = await ingressClient.createIngress(
+        ingressType,
+        options,
+    )
 
     if (!ingress || !ingress.url || !ingress.streamKey) {
         throw new Error("Failed to create ingress")
     }
 
     await db.stream.update({
-        where: {
-            userId: self.id
-        },
+        where: { userId: self.id },
         data: {
             ingressId: ingress.ingressId,
             serverUrl: ingress.url,
-            streamKey: ingress.streamKey
-        }
+            streamKey: ingress.streamKey,
+        },
     })
 
     revalidatePath(`/u/${self.username}/keys`)
