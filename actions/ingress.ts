@@ -1,14 +1,14 @@
 "use server"
 import { IngressAudioEncodingPreset, IngressInput, IngressClient, IngressVideoEncodingPreset, RoomServiceClient, type CreateIngressOptions } from "livekit-server-sdk"
-import { TrackSource } from "livekit-server-sdk/dist/proto/livekit_models_pb"
-import { db } from "@/lib/db"
+import { TrackSource } from "livekit-server-sdk/dist/proto/livekit_models"
 import { getSelf } from "@/lib/auth-service"
 import { revalidatePath } from "next/cache"
+import { db } from "@/lib/db"
 
 const roomService = new RoomServiceClient(
     process.env.LIVEKIT_API_URL!,
     process.env.LIVEKIT_API_KEY!,
-    process.env.LIVEKIT_API_SECRET!,
+    process.env.LIVEKIT_API_SECRET!
 )
 
 const ingressClient = new IngressClient(process.env.LIVEKIT_API_URL!)
@@ -70,8 +70,8 @@ export const createIngress = async (ingressType: IngressInput) => {
         data: {
             ingressId: ingress.ingressId,
             serverUrl: ingress.url,
-            streamKey: ingress.streamKey,
-        },
+            streamKey: ingress.streamKey
+        }
     })
 
     revalidatePath(`/u/${self.username}/keys`)

@@ -1,5 +1,5 @@
 import { headers } from "next/headers"
-import { WebhookReceiver } from "livekit-server-sdk"
+import { WebhookReceiver, WebhookEvent } from "livekit-server-sdk"
 import { db } from "@/lib/db"
 
 const receiver = new WebhookReceiver(
@@ -16,27 +16,27 @@ export async function POST(req: Request) {
         return new Response("No authorization header", { status: 400 })
     }
 
-    const event = receiver.receive(body, authorization)
+    const event: WebhookEvent = await receiver.receive(body, authorization)
 
     if (event.event === "ingress_started") {
         await db.stream.update({
             where: {
-                ingressId: event.ingressInfo?.ingressId,
+                ingressId: event.ingressInfo?.ingressId
             },
             data: {
-                isLive: true,
-            },
+                isLive: true
+            }
         })
     }
 
     if (event.event === "ingress_ended") {
         await db.stream.update({
             where: {
-                ingressId: event.ingressInfo?.ingressId,
+                ingressId: event.ingressInfo?.ingressId
             },
             data: {
-                isLive: false,
-            },
+                isLive: false
+            }
         })
     }
 }
